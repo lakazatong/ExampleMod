@@ -26,9 +26,11 @@ replacement_variants=(
 	"$(echo "$replacement_base" | awk -F'_' '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))}1' OFS='')"  # ExampleMod
 )
 
-rm -rf .vscode .idea
-./gradlew clean
-./gradlew --stop
+echo "Make sure Gradle is not running in this project (close any IDE that has this project open)"
+echo "Press Enter to continue..."
+read -r
+
+rm -rf .gradle .vscode .idea
 
 for i in "${!original_variants[@]}"; do
 	find . -depth -type d -name "*${original_variants[$i]}*" ! -path "./.git*" | while read path; do
