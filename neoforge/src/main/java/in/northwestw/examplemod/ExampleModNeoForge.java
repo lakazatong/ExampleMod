@@ -1,12 +1,7 @@
 package in.northwestw.examplemod;
 
 
-import in.northwestw.examplemod.client.TruthAssignerScreen;
 import in.northwestw.examplemod.platform.NeoForgeRegistryHelper;
-import in.northwestw.examplemod.registries.BlockEntities;
-import in.northwestw.examplemod.registries.Menus;
-import in.northwestw.examplemod.registries.blockentityrenderers.CircuitBlockEntityRenderer;
-import in.northwestw.examplemod.registries.blockentityrenderers.IntegratedCircuitBlockEntityRenderer;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -32,13 +27,10 @@ public class ExampleModNeoForge {
     public static class Registries {
         @SubscribeEvent
         public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-            event.registerBlockEntityRenderer(BlockEntities.CIRCUIT.get(), CircuitBlockEntityRenderer::new);
-            event.registerBlockEntityRenderer(BlockEntities.INTEGRATED_CIRCUIT.get(), IntegratedCircuitBlockEntityRenderer::new);
         }
 
         @SubscribeEvent
         public static void registerMenuScreens(RegisterMenuScreensEvent event) {
-            event.register(Menus.TRUTH_ASSIGNER.get(), TruthAssignerScreen::new);
         }
     }
 }

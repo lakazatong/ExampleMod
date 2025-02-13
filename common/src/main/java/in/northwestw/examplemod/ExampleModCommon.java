@@ -1,6 +1,5 @@
 package in.northwestw.examplemod;
 
-import in.northwestw.examplemod.config.Config;
 import in.northwestw.examplemod.registries.*;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
@@ -14,14 +13,14 @@ public class ExampleModCommon {
         Config.load();
 
         // blocks must be registered before block entities for fabric
-        Blocks.trigger();
-        BlockEntities.trigger();
-        Codecs.trigger();
-        DataComponents.trigger();
-        Items.trigger();
-        Menus.trigger();
-        SoundEvents.trigger();
-        Tabs.trigger();
+        ModBlocks.trigger();
+        ModBlockEntities.trigger();
+        ModCodecs.trigger();
+        ModDataComponents.trigger();
+        ModItems.trigger();
+        ModMenus.trigger();
+        ModSoundEvents.trigger();
+        ModTabs.trigger();
     }
 
     public static ResourceLocation rl(String name) {
