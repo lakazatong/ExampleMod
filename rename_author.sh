@@ -5,14 +5,20 @@ if [ "$#" -ne 1 ]; then
 	exit 1
 fi
 
-original='lakazatong'
 replacement="$1"
 
-find . -depth -name "*$original*" | while read path; do
+if ! [[ "$replacement" =~ ^[a-z][_a-z]{9}$ ]]; then
+	echo "Error: Replacement must match the pattern [a-z][_a-z]{9}"
+	exit 1
+fi
+
+original='lakazatong'
+
+find . -depth -name "*$original*" | while read -r path; do
 	newpath=$(echo "$path" | sed "s/$original/$replacement/g")
 	mv "$path" "$newpath"
 done
 
-grep -rl "$original" . | while read file; do
+grep -rl "$original" . | while read -r file; do
 	sed -i "s/$original/$replacement/g" "$file"
 done
