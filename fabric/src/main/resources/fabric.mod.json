@@ -16,10 +16,10 @@
     "environment": "*",
     "entrypoints": {
         "main": [
-            "in.northwestw.examplemod.ExampleModFabric"
+            "in.lakazatong.examplemod.ExampleModFabric"
         ],
         "client": [
-            "in.northwestw.examplemod.ExampleModFabric"
+            "in.lakazatong.examplemod.ExampleModFabric"
         ]
     },
     "depends": {
