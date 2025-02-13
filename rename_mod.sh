@@ -24,7 +24,7 @@ replacement_variants=(
 )
 
 echo "Make sure Gradle is not running in this project (close any IDE that has this project open)"
-echo "Press Enter to continue..."
+echo -n "Press Enter to continue..."
 read -r
 
 rm -rf .gradle .vscode .idea
