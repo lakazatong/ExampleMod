@@ -42,11 +42,4 @@ for i in "${!original_variants[@]}"; do
     done
 done
 
-current_dir=$(basename "$PWD")
-parent_dir=$(dirname "$PWD")
-new_root_name="${replacement_variants[5]}"
-if [ -d "$parent_dir/$new_root_name" ]; then
-    echo "Error: $new_root_name already exists in the parent directory."
-    exit 1
-fi
-sudo mv "$parent_dir/$current_dir" "$parent_dir/$new_root_name"
+echo "Do not forget to rename the root folder to ${replacement_variants[5]}"
