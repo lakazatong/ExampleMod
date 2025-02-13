@@ -19,29 +19,27 @@ original_variants=(
 )
 
 replacement_variants=(
-    "$replacement_base"
-    "$(echo "$replacement_base" | tr '_' ' ')"
-    "$(echo "$replacement_base" | tr -d '_')"
-    "$(echo "$replacement_base" | tr '[:lower:]' '[:upper:]' | sed 's/_/ /g')"
-    "$(echo "$replacement_base" | tr '[:lower:]' '[:upper:]' | tr '_' ' ')"
-    "$(echo "$replacement_base" | tr '[:lower:]' '[:upper:]' | tr -d '_')"
+    "$replacement_base"  # compact_circuits_mod
+    "$(echo "$replacement_base" | tr '_' ' ')"  # compact circuits mod
+    "$(echo "$replacement_base" | tr -d '_')"  # compactcircuitsmod
+    "$(echo "$replacement_base" | awk -F'_' '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))}1' OFS='_')"  # Compact_Circuits_Mod
+    "$(echo "$replacement_base" | awk -F'_' '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))}1' OFS=' ')"  # Compact Circuits Mod
+    "$(echo "$replacement_base" | awk -F'_' '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))}1' OFS='')"  # CompactCircuitsMod
 )
 
 echo "${replacement_variants[@]}"
 
 exit 0
 
-# Step 1: Rename directories (deepest first to prevent path conflicts)
 find . -depth -type d | while read path; do
     newpath="$path"
     for i in "${!original_variants[@]}"; do
         newpath=$(echo "$newpath" | sed "s/${original_variants[$i]}/${replacement_variants[$i]}/g")
     done
-    [ "$path" != "$newpath" ] && mv "$path" "$newpath"
+    [ "$path" != "$newpath" ] && mv -r "$path" "$newpath"
 done
 
-# Step 2: Rename files
-find . -type f | while read path; do
+find . -depth -type f | while read path; do
     newpath="$path"
     for i in "${!original_variants[@]}"; do
         newpath=$(echo "$newpath" | sed "s/${original_variants[$i]}/${replacement_variants[$i]}/g")
@@ -49,14 +47,12 @@ find . -type f | while read path; do
     [ "$path" != "$newpath" ] && mv "$path" "$newpath"
 done
 
-# Step 3: Replace inside files
 grep -rl "${original_variants[0]}" . | while read file; do
     for i in "${!original_variants[@]}"; do
         sed -i "s/${original_variants[$i]}/${replacement_variants[$i]}/g" "$file"
     done
 done
 
-# Step 4: Rename the root directory
 current_dir=$(basename "$PWD")
 parent_dir=$(dirname "$PWD")
 new_root_name=$(echo "$current_dir" | tr '[:lower:]' '[:upper:]' | tr -d '_')
