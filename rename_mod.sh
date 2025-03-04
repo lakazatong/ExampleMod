@@ -3,7 +3,7 @@
 current_dir=$(basename "$PWD")
 
 # ExampleMod -> example_mod
-replacement_base=$(echo "$current_dir" | sed -E 's/([a-z])([A-Z])/\1_\2/g' | tr '[:upper:]' '[:lower:]')
+replacement_base=$(echo "$current_dir" | sed 's/\([A-Z]\)/_\L\1/g' | sed 's/^_//')
 
 original_variants=(
 	"example_mod"
@@ -16,11 +16,11 @@ original_variants=(
 
 replacement_variants=(
 	"$replacement_base"
-	"$(echo "$replacement_base" | tr '_' ' ')"
-	"$(echo "$replacement_base" | tr -d '_')"
-	"$(echo "$replacement_base" | awk -F'_' '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))}1' OFS='_')"
-	"$(echo "$replacement_base" | awk -F'_' '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))}1' OFS=' ')"
-	"$(echo "$replacement_base" | awk -F'_' '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))}1' OFS='')"
+	"${replacement_base//_/ }"
+	"${replacement_base//_/}"
+	"$(echo "$replacement_base" | awk -F'_' '{for (i=1; i<=NF; i++) $i=toupper(substr($i,1,1)) substr($i,2)} 1' OFS='_')"
+	"$(echo "$replacement_base" | awk -F'_' '{for (i=1; i<=NF; i++) $i=toupper(substr($i,1,1)) substr($i,2)} 1' OFS=' ')"
+	"$(echo "$replacement_base" | awk -F'_' '{for (i=1; i<=NF; i++) $i=toupper(substr($i,1,1)) substr($i,2)} 1' OFS="")"
 )
 
 echo "Make sure Gradle is not running in this project (close any IDE that has this project open)"
